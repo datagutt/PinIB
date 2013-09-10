@@ -22,7 +22,6 @@ function loadTwig(){
 		$theme = 'default';
 	}
 	$loader = new \Twig_Loader_Filesystem(array(
-		PINIB_PATH . '/themes/' . $theme,
 		PINIB_PATH . '/app/views'
 	));
 	$twig = new Twig_PinIB_Environment($loader, array(
