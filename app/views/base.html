@@ -1,0 +1,56 @@
+{% set user = getUser() %}
+<!doctype html>
+<html lang="nb" class="no-js">
+<head>
+	<title>Idioticphotos</title>
+	<meta charset="utf8" /><link href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic" rel="stylesheet" type="text/css">
+	<link href="/assets/stylesheets/pure-min.css" rel="stylesheet" />
+	<link href="/assets/stylesheets/site.css" rel="stylesheet" />
+{% for stylesheet in stylesheets %}
+	<link href="/assets/stylesheets/{{stylesheet}}" rel="stylesheet" />
+{% endfor %}
+	<link href="/assets/stylesheets/handheld.css" media="screen and (max-device-width:40em)" rel="stylesheet">
+	<link media="handheld" href="/assets/stylesheets/handheld.css" rel="stylesheet">
+	<!--[if lt IE 9]>
+		<script type="text/javascript" src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<style type="text/css">header,nav,section,article,aside,footer,hgroup,main { display: block;}</style>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<![endif]-->
+</head>
+<body>
+<div id="container">
+	<header id="top">
+		<div class="pure-menu pure-menu-open pure-menu-horizontal">
+			<a href="/" class="pure-menu-heading">Idioticphotos</a>
+			<ul role="navigation">
+				<li class="pure-menu-selected"><a href="/">Home</a></li>
+				<li><a href="/login">Login</a></li>
+				{% if user %}
+				{% endif %}
+			</ul>
+		</div>
+	</header>
+	<div class="pure-g-r">
+		<main>
+			<div id="content">
+{% block content %}{% endblock %}
+			</div>
+		</div>
+		<footer id="footer">
+			<div class="pure-u-1">
+				<p>Idioticphotos &copy; {{ year|date('Y') }}</p>
+			</div>
+		</footer>
+	</div>
+</div>
+<!-- Dependencies -->
+<script src="/assets/javascripts/masonry.min.js"></script>
+<!-- Site-specific -->
+<script src="/assets/javascripts/ID.js"></script>
+<script src="/assets/javascripts/bootstrap.js"></script>
+{% for script in scripts %}
+	<script src="/assets/javascripts/{{ script }}"></script>
+{% endfor %}
+</script>
+</body>
+</html>

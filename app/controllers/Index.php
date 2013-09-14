@@ -3,6 +3,8 @@ namespace PinIB\Controllers;
 
 class Index extends \PinIB\Controller{
 	public function index(){
-		echo 'index';
+		//if(User::$loggedin){
+		//}
+		$this->view->render('front.html');
 	}
 }

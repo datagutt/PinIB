@@ -36,6 +36,7 @@ try{
 	require PINIB_PATH . '/app/core/Utils.php';
 	
 	require PINIB_PATH . '/app/libraries/Config.php';
+	require PINIB_PATH . '/app/libraries/Auth.php';
 	
 	if(file_exists(PINIB_PATH . '/config.php')){
 		require PINIB_PATH . '/config.php';

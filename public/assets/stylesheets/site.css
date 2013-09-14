@@ -1,0 +1,54 @@
+body,
+.pure-g [class *= "pure-u"],
+.pure-g-r [class *= "pure-u"] {
+	font-family: 'Lato', Arial, Verdana, 'Helvetica Neue', Helvetica, sans-serif;
+}
+body {
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-size-adjust: 100%;
+}
+#top .pure-menu {
+	background: #222;
+	color: #999;
+}
+.pure-menu .pure-menu-heading {
+	color: inherit;
+}
+.pure-menu li a {
+	color: #777;
+}
+.pure-menu li a:hover {
+	background: none;
+	color: #fff;
+}
+.pure-menu li.pure-menu-selected a {
+	background: #080808;
+	color: #ffffff;
+}
+#threads {
+	max-width: 100%;
+	min-width: 768px;
+	margin: 0px auto;
+	padding: 0;
+}
+.post {
+	position: relative;
+	margin: 3px;
+	padding: 5px;
+	width: 160px;
+}
+.post a {
+	outline: none;
+	border: none;
+}
+.post a img {
+	display: block;
+	width: 100%;
+	height: auto;
+	overflow: hidden;
+	border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}

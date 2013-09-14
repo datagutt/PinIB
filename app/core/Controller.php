@@ -5,9 +5,8 @@ class Controller{
 		$this->app = $app;
 		$this->view = $app->view;
 		
-		$this->view->addFunction('getBlogInfo', new \Twig_Function_Function('getBlogInfo'));
-		$this->view->addFunction('getAssetUrl', new \Twig_Function_Function('getAssetUrl'));
-		$this->view->addFunction('isExternal', new \Twig_Function_Function('isExternal'));
+		$this->view->addFunction('getToken', new \Twig_Function_Function('\\PinIB\\CSRF::getToken'));
+		$this->view->addFunction('getUser', new \Twig_Function_Function('\\PinIB\\Auth::get'));
 	}
 	
 	public function index(){
