@@ -3,7 +3,7 @@
 	if(Site.addToQueue){
 		Site.addToQueue(function threadsList(){
 			var threads = new Masonry('#threads', {
-				columnWidth: 180,
+				columnWidth: 210,
 				gutter: 10,
 				itemSelector: '.post'
 			});
