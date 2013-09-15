@@ -19,7 +19,15 @@ class App{
 		$params = array();
 		
 		if(array_key_exists($uri, $this->routes)){
-			return $this->route($this->routes[$uri]);
+			$tmp = explode('/', $uri);
+			
+			if($tmp && isset($tmp[2])){
+				$method = $tmp[2];
+			}else{
+				$method = 'index';
+			}
+			
+			return $this->route($this->routes[$uri], $method, $params);
 		}
 		
 		$searches = array_keys(self::$patterns);
@@ -33,23 +41,22 @@ class App{
 			}
 			
 			if(preg_match('#^' . $pattern. '$#', $uri, $matches)){
-				if(isset($matches[0])){
-					$controller = $action;
-				}else{
-					$controller = 'index';
-				}
-				
-				if(isset($matches[1])){
-					$method = $matches[1];
-				}else{
-					$method = 'index';
-				}
-				
 				$params = array_slice($matches, 1);
+
+				if(!isset($matches[1])){
+					$tmp = explode('/', $uri);
+					if($tmp && isset($tmp[2])){
+						$method = $tmp[2];
+						$params = array_slice($tmp, 3);
+					}else{
+						$method = 'index';
+					}
+				}
 				
-				$this->route($controller, $method, $params);
+				$this->route($action, $method, $params);
+				break;
 			}else{
-				if($i == $numRoutes-1){
+				if($i == $numRoutes - 1){
 					$this->route('FourOhFour');
 				}
 			}
@@ -57,20 +64,12 @@ class App{
 		}
 	}
 	
-	public function route($controller, $method = '', $params = array()){
-		if(!isset($controller)){
-			$controller = 'FourOhFour';
-		}
-		
-		if(!isset($method)){
-			$method = 'index';
-		}
-		
+	public function route($controller = 'FourOhFour', $method = '', $params = array()){
 		$className = 'PinIB\\Controllers\\' . ucfirst($controller);
 		if(!class_exists($className)){
 			$className = 'PinIB\\Controllers\\FourOhFour';
 		}
-
+		
 		$controller = new $className($this);
 
 		if(method_exists($className, $method) && is_callable(array($className, $method))){

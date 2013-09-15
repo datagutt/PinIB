@@ -1,5 +1,6 @@
 <?php
 $routes = array(
 	'/' => 'Index',
-	'/test/:any' => 'Test'
+	'/tag/:any' => 'Thread',
+	'/auth/login' => 'Auth'
 );
