@@ -35,6 +35,8 @@ try{
 	require PINIB_PATH . '/app/core/CSRF.php';
 	require PINIB_PATH . '/app/core/Utils.php';
 	
+	require PINIB_PATH . '/app/vendor/Predis/lib/Predis/Autoloader.php';
+	
 	require PINIB_PATH . '/app/libraries/Config.php';
 	require PINIB_PATH . '/app/libraries/Auth.php';
 	
@@ -45,7 +47,7 @@ try{
 		die('');
 	}
 	
-	Config::init();
+	\Predis\Autoloader::register();
 	
 	$twig = loadTwig();
 	
