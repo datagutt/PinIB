@@ -5,6 +5,9 @@ class Index extends \PinIB\Controller{
 	public function index(){
 		//if(User::$loggedin){
 		//}
-		$this->view->render('front.html');
+		$thread = $this->app->getModel('thread');
+		$this->view->render('front.html', array(
+			//'threads' => $thread->findMany()
+		));
 	}
 }

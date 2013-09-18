@@ -5,6 +5,6 @@ class Model{
 	
 	public function __construct($app = NULL){
 		$this->app = $app;
-		$this->$redis = new Predis\Client(false, array('prefix' => $this->table . ':'));
+		$this->redis = new \Predis\Client(false, array('prefix' => $this->table . ':'));
 	}
 }
