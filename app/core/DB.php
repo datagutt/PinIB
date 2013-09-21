@@ -187,5 +187,4 @@ class SQLQuery{
 		
 		return $this->run();
 	}
-
 }
