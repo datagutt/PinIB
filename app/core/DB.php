@@ -111,7 +111,6 @@ class SQLQuery{
 		if(!empty($limit)){	
 			$query .= ' LIMIT ' . $this->limit;
 		}
-		echo $query;
 		
 		$stmt = DB::prepare($query);
 		

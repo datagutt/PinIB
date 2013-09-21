@@ -5,8 +5,12 @@ class Thread extends \PinIB\Model{
 	
 	public function  posts($amount = 10){
 		$query = new \PinIB\SQLQuery($this->table);
-		$result = $query->find('*', false, $amount, 'created_at DESC')->fetchAll();
-		
-		return $result;
+		if($cache = $this->redis->get('threads')){
+			$threads = unserialize($cache);
+		}else{
+			$threads = $query->find('*', false, $amount, 'created_at DESC')->fetchAll();
+			$this->redis->set('threads', serialize($threads));
+		}
+		return $threads;
 	}
 }
