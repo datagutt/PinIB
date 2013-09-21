@@ -1,12 +1,11 @@
 <?php
 namespace PinIB\Models;
 class Thread extends \PinIB\Model{
-	protected $table = 'thread';
+	protected $table = 'threads';
 	
-	public function findMany($amount = 10){
-		$stmt = \PinIB\DB::prepare('SELECT * from ' . $this->table. ' ORDER BY published desc LIMIT :amount');
-		$stmt->bindParam(':amount', $amount, \PDO::PARAM_INT);
-		$result = $stmt->execute();
+	public function  posts($amount = 10){
+		$query = new \PinIB\SQLQuery($this->table);
+		$result = $query->find('*', false, $amount, 'created_at DESC')->fetchAll();
 		
 		return $result;
 	}
