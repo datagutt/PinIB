@@ -179,12 +179,12 @@ class SQLQuery{
 	public function find($fields = '*', $where = array(), $limit = null, $orderBy = null){
 		$this->select($fields)->where($where)->orderBy($orderBy)->limit($limit);
 		
-		return $this->run();
+		return $this->run()->fetchAll();
 	}
 	
 	public function findById($id, $fields = array('*')){
 		$this->select($fields)->where(array('id' => $id));
 		
-		return $this->run();
+		return $this->run()->fetch();
 	}
 }
