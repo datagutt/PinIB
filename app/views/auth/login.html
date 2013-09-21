@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% set scripts = ["front.js"] %}
+{% set stylesheets = ["front.css"] %}
+{% block content %}
+<div class="pure-u-1">
+	<form id="login-form" class="pure-form pure-form-stacked">
+		<fieldset>
+			<legend>Log in</legend>
+			
+			<label for="username">Username</label>
+			<input id="username" type="text" placeholder="Username">
+			
+			<label for="password">Password</label>
+			<input id="password" type="password" placeholder="Password">
+			
+			<label for="remember" class="pure-checkbox">
+				<input id="remember" type="checkbox"> Remember me
+			</label>
+			<button type="submit" class="pure-button pure-button-primary">Log in</button>
+		</fieldset>
+	</form>
+</div>
+{% endblock %}

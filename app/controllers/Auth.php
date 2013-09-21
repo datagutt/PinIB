@@ -3,11 +3,10 @@ namespace PinIB\Controllers;
 
 class Auth extends \PinIB\Controller{
 	public function index(){
-		#redirect('/auth/login');
-		echo 'index';
+		redirect('/auth/login');
 	}
 	
 	public function login(){
-		echo 'login';
+		$this->view->render('auth/login.html');
 	}
 }
