@@ -4,24 +4,11 @@
 {% block content %}
 <div class="pure-u-1">
 	<div id="threads">
-		<article class="post">
-			<a href="#"><img src="http://davidwalsh.name/demo/Wookmark-jQuery/example/images/image_1.jpg" width="200" height="283"></a>
+{% for thread in threads %}
+		<article class="thread">
+			<a href="/thread/{{ thread.slug }}"><img src="{{ thread.file }}" width="{{ thread.width }}" height="{{ thread.height }}"></a>
 		</article>
-		<article class="post">
-			<a href="#"><img src="http://davidwalsh.name/demo/Wookmark-jQuery/example/images/image_2.jpg" width="200" height="300"></a>
-		</article>
-		<article class="post">
-			<a href="#"><img src="http://davidwalsh.name/demo/Wookmark-jQuery/example/images/image_3.jpg" width="200" height="252"></a>
-		</article>
-		<article class="post">
-			<a href="#"><img src="http://davidwalsh.name/demo/Wookmark-jQuery/example/images/image_4.jpg" width="200" height="158"></a>
-		</article>
-		<article class="post">
-			<a href="#"><img src="http://davidwalsh.name/demo/Wookmark-jQuery/example/images/image_5.jpg" width="200" height="300"></a>
-		</article>
-		<article class="post">
-			<a href="#"><img src="http://davidwalsh.name/demo/Wookmark-jQuery/example/images/image_6.jpg" width="200" height="297"></a>
-		</article>
-	</ul>
+{% endfor %}
+	</div>
 </div>
 {% endblock %}
