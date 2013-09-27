@@ -5,7 +5,7 @@
 			var threads = new Masonry('#threads', {
 				columnWidth: 210,
 				gutter: 10,
-				itemSelector: '.post'
+				itemSelector: '.thread'
 			});
 		});
 	}
