@@ -7,6 +7,26 @@ class Auth extends \PinIB\Controller{
 	}
 	
 	public function login(){
-		$this->view->render('auth/login.html');
+		if(!\PinIB\Auth::guest()){
+			redirect('/');
+		}
+
+		if(!isset($_POST['username']) || !isset($_POST['password'])){
+			$this->view->render('auth/login.html');
+		}else{
+			\PinIB\CSRF::check();
+			$username = $_POST['username'];
+			$password = $_POST['password'];
+			if(\PinIB\Auth::login($username, $password)){
+				redirect('/');
+			}else{
+				$this->view->render('errors/nologinforyou.html');
+			}
+		}
+	}
+	
+	public function logout(){
+		\PinIB\CSRF::check();
+		\PinIB\Auth::logout();
 	}
 }
