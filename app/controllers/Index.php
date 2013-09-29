@@ -6,7 +6,7 @@ class Index extends \PinIB\Controller{
 		$thread = $this->app->getModel('thread');
 		
 		if(isset($_GET['noCache']) && $_GET['noCache'] == 1){
-			$thread->redis->del('thread');
+			$thread->redis->del('threads');
 		}
 				
 		$this->view->render('front.html', array(

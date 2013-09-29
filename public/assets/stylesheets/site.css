@@ -35,17 +35,33 @@ input, .pure-button {
 	margin: 0px auto;
 	padding: 0;
 }
-.post {
+.thread {
 	position: relative;
 	margin: 3px;
-	padding: 5px;
 	width: 200px;
 }
-.post a {
+.thread header {
+	position: absolute;
+	width: 100%;
+	-webkit-transition-property: background-color;
+	-moz-transition-property: background-color;
+	-o-transition-property: background-color;
+	transition-property: background-color;
+	-webkit-transition-duration: 200ms;
+	-moz-transition-duration: 200ms;
+	-o-transition-duration: 200ms;
+	transition-duration: 200ms;
+	background-color: rgba(0,0,0,0.425);
+	padding: 5px;
+	font-size: 1.2em;
+	text-transform: uppercase;
+}
+.thread a {
 	outline: none;
 	border: none;
+	color: #FFF;
 }
-.post a img {
+.thread a img {
 	display: block;
 	width: 100%;
 	height: auto;

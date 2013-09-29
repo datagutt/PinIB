@@ -6,7 +6,10 @@
 	<div id="threads">
 {% for thread in threads %}
 		<article class="thread">
-			<a href="/thread/{{ thread.slug }}"><img src="{{ thread.file }}" width="{{ thread.width }}" height="{{ thread.height }}"></a>
+			<a href="/thread/{{ thread.slug }}">
+				<header>{{ thread.title }}</header>
+				<img src="{{ thread.file }}" width="{{ thread.width }}" height="{{ thread.height }}">
+			</a>
 		</article>
 {% endfor %}
 	</div>
