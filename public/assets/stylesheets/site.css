@@ -42,7 +42,7 @@ input, .pure-button {
 }
 .thread header {
 	position: absolute;
-	width: 100%;
+	width: 95%;
 	-webkit-transition-property: background-color;
 	-moz-transition-property: background-color;
 	-o-transition-property: background-color;
