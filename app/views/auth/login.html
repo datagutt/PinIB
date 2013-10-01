@@ -7,6 +7,8 @@
 		<fieldset>
 			<legend>Log in</legend>
 			
+			<inputname="token" type="hidden" value="{{ getToken() }}">
+			
 			<label for="username">Username</label>
 			<input id="username" name="username" type="text" placeholder="Username">
 			
