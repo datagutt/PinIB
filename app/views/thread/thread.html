@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% set scripts = ["thread.js"] %}
+{% block content %}
+<div class="pure-u-1">
+	<article id="thread">
+			<header><h1>{{ thread.title }}</h1></header>
+			<img src="{{ thread.file }}" width="{{ thread.width }}" height="{{ thread.height }}">
+			<div class="content">{{ thread.content }}</div>
+	</article>
+{% for post in posts %}
+	<article class="post">
+			<a href="/thread/{{ thread.slug }}"><header>{{ post.title }}</header></a>
+{% if post.file %}
+			<img src="{{ post.file }}" width="{{ post.width }}" height="{{ post.height }}">
+{% endif %}
+			<div class="content">{{ post.content }}</div>
+	</article>
+{% endfor %}
+</div>
+{% endblock %}

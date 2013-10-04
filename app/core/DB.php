@@ -181,6 +181,12 @@ class SQLQuery{
 		
 		return $this->run()->fetchAll();
 	}
+
+	public function findOne($fields = '*', $where = array(), $limit = null, $orderBy = null){
+		$this->select($fields)->where($where)->orderBy($orderBy)->limit($limit);
+		
+		return $this->run()->fetch();
+	}
 	
 	public function findById($id, $fields = array('*')){
 		$this->select($fields)->where(array('id' => $id));

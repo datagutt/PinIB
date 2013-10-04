@@ -10,7 +10,7 @@ class Index extends \PinIB\Controller{
 		}
 				
 		$this->view->render('front.html', array(
-			'threads' => $thread->posts()
+			'threads' => $thread->threads()
 		));
 	}
 }
