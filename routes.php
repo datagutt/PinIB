@@ -1,7 +1,9 @@
 <?php
 $routes = array(
-	'/' => 'Index',
-	'/tag/:any' => 'Thread',
-	'/auth' => 'Auth',
-	'/auth/login' => 'Auth'
+	'/' => array('controller' => 'Index'),
+	'/thread/:alpha' => array('controller' => 'Thread'),
+	'/tag/:string' => array('controller' => 'Thread', 'method' => 'tag'),
+	'/auth' => array('controller' => 'Auth'),
+	'/auth/login' => array('controller' => 'Auth', 'method' => 'login')
+	'/auth/logout' => array('controller' => 'Auth', 'method' => 'logout')
 );

@@ -3,9 +3,9 @@ namespace PinIB;
 
 class App{
 	public static $patterns = array(
-		':any' => '[^/]+',
-		':num' => '[0-9]+',
-		':all' => '.*'
+		':string' => '([a-zA-Z]+)',
+		':number' => '([0-9]+)',
+		':alpha'  => '([a-zA-Z0-9-_]+)'
 	);
 
 	public function __construct($view, $routes){
@@ -20,15 +20,15 @@ class App{
 		$params = array();
 		
 		if(array_key_exists($uri, $this->routes)){
-			$tmp = explode('/', $uri);
+			$route = $this->routes[$uri];
 			
-			if($tmp && isset($tmp[2])){
-				$method = $tmp[2];
+			if(array_key_exists('method', $route)){
+				$method = $route['method'];
 			}else{
 				$method = 'index';
 			}
 			
-			return $this->route($this->routes[$uri], $method, $params);
+			return $this->route($route['controller'], $method, $params);
 		}
 		
 		$searches = array_keys(self::$patterns);
@@ -36,25 +36,19 @@ class App{
 		
 		$numRoutes = count($this->routes);
 		$i = 0;
-		foreach($this->routes as $pattern => $action){		
-			if(strpos($pattern, ':') !== false) {
-				$pattern = str_replace($searches, $replaces, $pattern);
-			}
+		foreach($this->routes as $pattern => $route){		
+			$pattern = strtr($pattern, $this::$patterns);
 			
-			if(preg_match('#^' . $pattern. '$#', $uri, $matches)){
-				$params = array_slice($matches, 1);
-
-				if(!isset($matches[1])){
-					$tmp = explode('/', $uri);
-					if($tmp && isset($tmp[2])){
-						$method = $tmp[2];
-						$params = array_slice($tmp, 3);
-					}else{
-						$method = 'index';
-					}
+			if(preg_match('#^/?' . $pattern. '/?$#', $uri, $matches)){
+				if(array_key_exists('method', $route)){
+					$method = $route['method'];
+				}else{
+					$method = 'index';
 				}
 				
-				$this->route($action, $method, $params);
+				$params = array_slice($matches, 1);
+				
+				$this->route($route['controller'], $method, $params);
 				break;
 			}else{
 				if($i == $numRoutes - 1){
