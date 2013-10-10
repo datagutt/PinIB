@@ -20,7 +20,7 @@ class Thread extends \PinIB\Model{
 		return $thread;
 	}
 	
-	public function posts($threadID){
+	public function posts($threadID = 0){
 		$post = $this->app->getModel('post');
 		
 		return $post->posts($threadID);

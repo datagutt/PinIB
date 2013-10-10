@@ -11,7 +11,7 @@ class Auth{
 		return isset($_SESSION['user']) ? $_SESSION['user'] : [];
 	}
 	
-	public static function login($username, $password){
+	public static function login($username = '', $password = ''){
 		$crypt = new \PasswordLib\PasswordLib;
 		
 		$stmt = DB::prepare("SELECT * FROM ::users WHERE username = :username");

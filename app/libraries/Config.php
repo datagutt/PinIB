@@ -23,11 +23,11 @@ class Config{
 		}
 	}
 	
-	public static function exists($key) {
+	public static function exists($key = '') {
 		return isset(self::$config[$key]);
 	}
 	
-	public static function get($name){
+	public static function get($name = ''){
 		if(!self::$redis->get($name)){
 			$stmt = DB::prepare('SELECT * from ::config WHERE name = :name');
 			$stmt->bindParam('name', $name, \PDO::PARAM_STR);

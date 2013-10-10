@@ -1,7 +1,7 @@
 <?php
 namespace PinIB;
 class Controller{
-	public function __construct($app = NULL){
+	public function __construct(App $app){
 		$this->app = $app;
 		$this->view = $app->view;
 		

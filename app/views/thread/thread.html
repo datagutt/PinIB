@@ -3,18 +3,39 @@
 {% block content %}
 <div class="pure-u-1">
 	<article id="thread">
-			<header><h1>{{ thread.title }}</h1></header>
+			<header>
+				<h2 id="thread-title">{{ thread.title }}</h1>
+				<h4>Posted by <a href="/user/{{ thread.user }}">{{ thread.user }}</a> {{ thread.ago }} on {{ thread.created_at }}</h4>
+			</header>
 			<img src="{{ thread.file }}" width="{{ thread.width }}" height="{{ thread.height }}">
 			<div class="content">{{ thread.content }}</div>
 	</article>
 {% for post in posts %}
 	<article class="post">
-			<a href="/thread/{{ thread.slug }}"><header>{{ post.title }}</header></a>
+			<header>
+				<h2 class="post-title">{{ post.title }}</h1>
+				<h3><span class="posted-by"><a href="/user/{{ post.user }}">{{ post.user }}</a></span> wrote {{ post.ago }}</h3>
+			</header>
 {% if post.file %}
 			<img src="{{ post.file }}" width="{{ post.width }}" height="{{ post.height }}">
 {% endif %}
 			<div class="content">{{ post.content }}</div>
 	</article>
 {% endfor %}
+{% if user %}
+<form class="pure-form pure-form-stacked">
+	<fieldset>
+		<legend>New post</legend>
+
+		<label for="image">Image</label>
+		<input id="image" type="file" placeholder="Image">
+
+		<label for="post-content">Content</label>
+		<textarea id="post-content" type="text" placeholder="Content" rows="5" cols="30"></textarea>
+
+		<button type="submit" class="pure-button pure-button-primary">Post</button>
+	</fieldset>
+</form>
+{% endif %}
 </div>
 {% endblock %}

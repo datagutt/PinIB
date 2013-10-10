@@ -31,7 +31,7 @@ class DB{
 		return self::$instance; 
 	}
 	
-	public static function prepare($query, $options = array()){
+	public static function prepare($query, array $options = array()){
 		global $config;
 		$instance = self::getInstance();
 		
@@ -61,7 +61,7 @@ class DB{
 		return $sth;
 	}
 	
-	final public static function __callStatic($method, $arguments) { 
+	final public static function __callStatic($method, array $arguments) { 
 		$instance = self::getInstance(); 
 		
 		return call_user_func_array(array($instance, $method), $arguments); 
@@ -170,25 +170,25 @@ class SQLQuery{
 		return $this;
 	}
 	
-	public function where($where = array()){
+	public function where(array $where){
 		$this->where = $where;
 		
 		return $this;
 	}
 	
-	public function find($fields = '*', $where = array(), $limit = null, $orderBy = null){
+	public function find($fields = '*', array $where, $limit = null, $orderBy = null){
 		$this->select($fields)->where($where)->orderBy($orderBy)->limit($limit);
 		
 		return $this->run()->fetchAll();
 	}
 
-	public function findOne($fields = '*', $where = array(), $limit = null, $orderBy = null){
+	public function findOne($fields = '*', array $where, $limit = null, $orderBy = null){
 		$this->select($fields)->where($where)->orderBy($orderBy)->limit($limit);
 		
 		return $this->run()->fetch();
 	}
 	
-	public function findById($id, $fields = array('*')){
+	public function findById($id, array $fields = array('*')){
 		$this->select($fields)->where(array('id' => $id));
 		
 		return $this->run()->fetch();
