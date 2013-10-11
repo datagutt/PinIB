@@ -7,7 +7,11 @@ class App{
 		':number' => '([0-9]+)',
 		':alpha'  => '([a-zA-Z0-9-_]+)'
 	);
-
+	
+	/**
+		* @param Twig_PinIB_Environment $view
+		* @param array $routes
+	**/
 	public function __construct(Twig_PinIB_Environment $view, array $routes){
 		$this->view = $view;
 		$this->routes = $routes;
@@ -59,6 +63,11 @@ class App{
 		}
 	}
 	
+	/**
+		* @param string $controller Controller to use.
+		* @param string $method Method to call.
+		* @param array $params Parameters t use.
+	**/
 	public function route($controller = 'FourOhFour', $method = '', array $params){
 		$className = 'PinIB\\Controllers\\' . ucfirst($controller);
 		if(!class_exists($className)){
@@ -74,6 +83,9 @@ class App{
 		}	
 	}
 	
+	/**
+		* @param string $className Controller to include.
+	**/
 	public function autoload($className = ''){
 		preg_match('/([^\\\]+)$/', ltrim($className, '\\'), $match);
 		$file = PINIB_PATH . '/app/controllers/' . $match[0] . '.php';
@@ -82,6 +94,10 @@ class App{
 		}
 	}
 	
+	/**
+		* @param string $modelName Model to return.
+		* @return object
+	**/
 	public function getModel($modelName = ''){
 		if(file_exists(PINIB_PATH . '/app/models/' . $modelName . '.php')){
 			require PINIB_PATH . '/app/models/' . $modelName . '.php';

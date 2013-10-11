@@ -1,6 +1,10 @@
 <?php
 namespace PinIB;
 class Controller{
+
+	/**
+		* @param App $app
+	**/
 	public function __construct(App $app){
 		$this->app = $app;
 		$this->view = $app->view;

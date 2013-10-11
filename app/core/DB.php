@@ -31,6 +31,10 @@ class DB{
 		return self::$instance; 
 	}
 	
+	/**
+		* @param string $query SQL query.
+		* @param array $options Database options.
+	**/
 	public static function prepare($query, array $options = array()){
 		global $config;
 		$instance = self::getInstance();
@@ -46,6 +50,9 @@ class DB{
 		return $sth;
 	}
 	
+	/**
+		* @param string $query SQL query.
+	**/
 	public static function query($query){
 		global $config;
 		$instance = self::getInstance();
@@ -61,6 +68,10 @@ class DB{
 		return $sth;
 	}
 	
+	/**
+		* @param string $method Method to call.
+		* @param array $arguments Arguments to use.
+	**/
 	final public static function __callStatic($method, array $arguments) { 
 		$instance = self::getInstance(); 
 		
@@ -79,7 +90,10 @@ class SQLQuery{
 	public $limit = '';
 	
 	public $error;
-
+	
+	/**
+		* @param array $table Table to SELECT from.
+	**/
 	public function __construct($table = ''){
 		$this->table = $table;
 	}
@@ -148,6 +162,9 @@ class SQLQuery{
 		return false;
 	}
 	
+	/**
+		* @param string $limit Maximum amount of items to return.
+	**/
 	public function limit($limit = null){
 		if(!empty($limit)){
 			$this->limit = $limit;
@@ -156,7 +173,10 @@ class SQLQuery{
 		return $this;
 	}
 	
-	public function orderBy($orderBy = null){
+	/**
+		* @param string $orderBy Items to order by.
+	**/
+	public function orderBy($orderBy = ''){
 		if(!empty($orderBy)){
 			$this->orderBy = $orderBy;
 		}
@@ -164,30 +184,52 @@ class SQLQuery{
 		return $this;
 	}
 	
+	/**
+		* @param string $fields Fields to select.
+	**/
 	public function select($fields = '*'){
 		$this->fields = $fields;
 		
 		return $this;
 	}
 	
+	/**
+		* @param array $where Where.
+	**/
 	public function where(array $where){
 		$this->where = $where;
 		
 		return $this;
 	}
 	
+	/**
+		* @param string $fields Fields to select.
+		* @param array $where Where.
+		* @param string $limit Maximum amount of items to return.
+		* @param string $orderBy Items to order by.
+	**/
 	public function find($fields = '*', array $where, $limit = null, $orderBy = null){
 		$this->select($fields)->where($where)->orderBy($orderBy)->limit($limit);
 		
 		return $this->run()->fetchAll();
 	}
-
+	
+	/**
+		* @param string $fields Fields to select.
+		* @param array $where Where.
+		* @param string $limit Maximum amount of items to return.
+		* @param string $orderBy Items to order by.
+	**/
 	public function findOne($fields = '*', array $where, $limit = null, $orderBy = null){
 		$this->select($fields)->where($where)->orderBy($orderBy)->limit($limit);
 		
 		return $this->run()->fetch();
 	}
 	
+	/**
+		* @param integer $id ID to find.
+		* @param array $fields Fields to select.
+	**/
 	public function findById($id, array $fields = array('*')){
 		$this->select($fields)->where(array('id' => $id));
 		
