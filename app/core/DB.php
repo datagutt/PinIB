@@ -80,14 +80,15 @@ class DB{
 }
 class SQLQuery{
 	protected $table;
-	protected $type = 'SELECT ';
+	protected $type = 'SELECT';
 	protected $_result;
 	
 	public $fields = '*';
 	public $from = '';
-	public $where = '';
-	public $orderBy = '';
-	public $limit = '';
+	public $data = array();
+	public $where = array();
+	public $orderBy = null;
+	public $limit = null;
 	
 	public $error;
 	
@@ -99,19 +100,32 @@ class SQLQuery{
 	}
 
 	public function run(){
-		$query = $this->type;
-		if(is_array($this->fields)){
-			$query .= implode(',', $this->fields);
-		}else{
-			$query .= !empty($this->fields) ? $this->fields : '*';
+		$query = $this->type . ' ';
+		
+		if($this->type == 'SELECT'){
+			if(is_array($this->fields)){
+				$query .= implode(',', $this->fields);
+			}else{
+				$query .= !empty($this->fields) ? $this->fields : '*';
+			}
+		
+			$query .= ' FROM ' . $this->table;
+		}else if($this->type == 'UPDATE'){
+			$query .= $this->table;
 		}
 		
-		$query .= ' FROM ' . $this->table;
+		$data = $this->data;
+		if(!empty($data)){
+			$query .= ' SET ';
+			foreach($data as $key => $value){
+				$query .= $key . ' = :' . $key;
+			}
+		}	
 		
 		$where = $this->where;
-		if(is_array($where)){
+		if(!empty($where)){
 			$query .= ' WHERE ';
-			foreach($this->where as $key => $value){
+			foreach($where as $key => $value){
 				$query .= $key . ' = :' . $key;
 			}
 		}
@@ -123,19 +137,27 @@ class SQLQuery{
 		
 		$limit = $this->limit;
 		if(!empty($limit)){	
-			$query .= ' LIMIT ' . $this->limit;
+			$query .= ' LIMIT ' . $limit;
 		}
 		
 		$stmt = DB::prepare($query);
 		
+		if(is_array($data)){
+			foreach($data as $key => $value){
+				$data[':' . $key] = $value;
+				unset($data[$key]);
+			}
+		}
+		
 		if(is_array($where)){
-			foreach($this->where as $key => $value){
-				$stmt->bindParam($key, $value, (gettype($value) == 'integer') ? \PDO::PARAM_INT : \PDO::PARAM_STR);
+			foreach($where as $key => $value){
+				$where[':' . $key] = $value;
+				unset($where[$key]);
 			}
 		}
 		
 		try{
-			$stmt->execute();
+			$stmt->execute(array_merge($data, $where));
 			$this->_result = $stmt;
 			return $this;
 		}catch(PDOException $e){
@@ -192,11 +214,23 @@ class SQLQuery{
 		
 		return $this;
 	}
-	
+		
 	/**
 		* @param array $where Where.
 	**/
 	public function where(array $where){
+		$this->where = $where;
+		
+		return $this;
+	}
+	
+	/**
+		* @param array $data Array of data.
+		* @param array $where Where.
+	**/
+	public function update(array $data, array $where){
+		$this->type = 'UPDATE';
+		$this->data = $data;
 		$this->where = $where;
 		
 		return $this;

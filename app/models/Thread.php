@@ -11,7 +11,7 @@ class Thread extends \PinIB\Model{
 		if($cache = $this->redis->get('threads')){
 			$threads = unserialize($cache);
 		}else{
-			$threads = $query->find('*', false, $amount, 'created_at DESC');
+			$threads = $query->find('*', array(), $amount, 'created_at DESC');
 			$this->redis->set('threads', serialize($threads));
 		}
 		return $threads;
