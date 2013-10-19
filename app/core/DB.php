@@ -112,23 +112,29 @@ class SQLQuery{
 			$query .= ' FROM ' . $this->table;
 		}else if($this->type == 'UPDATE'){
 			$query .= $this->table;
+		}else if($this->type == 'INSERT'){
+			$query .= ' INTO ' . $this->table;
 		}
 		
 		$data = $this->data;
+		$arr = array();
 		if(!empty($data)){
 			$query .= ' SET ';
 			foreach($data as $key => $value){
-				$query .= $key . ' = :' . $key;
+				array_push($arr, $key . ' = :' . $key);
 			}
-		}	
-		
+		}
+		$query .= implode($arr, ', ');
+
 		$where = $this->where;
+		$arr = array();
 		if(!empty($where)){
 			$query .= ' WHERE ';
 			foreach($where as $key => $value){
-				$query .= $key . ' = :' . $key;
+				array_push($arr, $key . ' = :' . $key);
 			}
 		}
+		$query .= implode($arr, ', ');
 		
 		$orderBy = $this->orderBy;
 		if(!empty($orderBy)){	
@@ -155,7 +161,7 @@ class SQLQuery{
 				unset($where[$key]);
 			}
 		}
-		
+
 		try{
 			$stmt->execute(array_merge($data, $where));
 			$this->_result = $stmt;
@@ -224,6 +230,17 @@ class SQLQuery{
 		return $this;
 	}
 	
+	/**
+		* @param array $data Array of data.
+		* @param array $where Where.
+	**/
+	public function insert(array $data){
+		$this->type = 'INSERT';
+		$this->data = $data;
+		
+		return $this;
+	}
+		
 	/**
 		* @param array $data Array of data.
 		* @param array $where Where.
