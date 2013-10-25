@@ -66,9 +66,9 @@ class App{
 	/**
 		* @param string $controller Controller to use.
 		* @param string $method Method to call.
-		* @param array $params Parameters t use.
+		* @param array $params Parameters to use.
 	**/
-	public function route($controller = 'FourOhFour', $method = '', array $params){
+	public function route($controller = 'FourOhFour', $method = '', array $params = array()){
 		$className = 'PinIB\\Controllers\\' . ucfirst($controller);
 		if(!class_exists($className)){
 			$className = 'PinIB\\Controllers\\FourOhFour';
