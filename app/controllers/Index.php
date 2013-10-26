@@ -9,7 +9,7 @@ class Index extends \PinIB\Controller{
 			$thread->redis->del('threads');
 		}
 		
-		$thread->newThread('test', 'http://', 399, 399, 1);
+		#$thread->newThread('test', 'http://', 399, 399, 1);
 
 		$this->view->render('front.html', array(
 			'threads' => $thread->threads()
