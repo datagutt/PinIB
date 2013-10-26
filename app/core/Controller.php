@@ -11,6 +11,7 @@ class Controller{
 		
 		$this->view->addFunction('getToken', new \Twig_Function_Function('\\PinIB\\CSRF::getToken'));
 		$this->view->addFunction('getUser', new \Twig_Function_Function('\\PinIB\\Auth::get'));
+		$this->view->addFunction('slug', new \Twig_Function_Function('slug'));
 	}
 	
 	public function index(){

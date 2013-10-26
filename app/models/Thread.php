@@ -22,7 +22,15 @@ class Thread extends \PinIB\Model{
 	**/
 	public function bySlug($slug = ''){
 		$query = new \PinIB\SQLQuery($this->table);
-		$thread = $query->findOne('*', array('slug' => $slug), false, 'created_at DESC');
+				
+		$thread = $query->select('threads.*, users.username')
+			->join('users', 'threads.user_id = users.id')
+			->where(array(
+				'slug' => $slug
+			))
+			->orderBy('created_at DESC')
+			->run()
+			->fetch();
 		return $thread;
 	}
 	

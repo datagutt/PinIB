@@ -5,7 +5,7 @@
 	<article id="thread">
 			<header>
 				<h2 id="thread-title">{{ thread.title }}</h1>
-				<h4>Posted by <a href="/user/{{ thread.user }}">{{ thread.user }}</a> {{ thread.ago }} on {{ thread.created_at }}</h4>
+				<h4>Posted by <a href="/user/{{ slug(thread.username) }}">{{ thread.username }}</a> {{ thread.ago }} on {{ thread.created_at }}</h4>
 			</header>
 			<img src="{{ thread.file }}" width="{{ thread.width }}" height="{{ thread.height }}">
 			<div class="content">{{ thread.content }}</div>
@@ -14,7 +14,7 @@
 	<article class="post">
 			<header>
 				<h2 class="post-title">{{ post.title }}</h1>
-				<h3><span class="posted-by"><a href="/user/{{ post.user }}">{{ post.user }}</a></span> wrote {{ post.ago }}</h3>
+				<h3><span class="posted-by"><a href="/user/{{ slug(post.username) }}">{{ post.username }}</a></span> wrote {{ post.ago }}</h3>
 			</header>
 {% if post.file %}
 			<img src="{{ post.file }}" width="{{ post.width }}" height="{{ post.height }}">

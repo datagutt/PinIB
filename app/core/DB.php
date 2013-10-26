@@ -86,6 +86,7 @@ class SQLQuery{
 	public $fields = '*';
 	public $from = '';
 	public $data = array();
+	public $joins = array();
 	public $where = array();
 	public $orderBy = null;
 	public $limit = null;
@@ -115,7 +116,7 @@ class SQLQuery{
 		}else if($this->type == 'INSERT'){
 			$query .= ' INTO ' . $this->table;
 		}
-		
+			
 		$data = $this->data;
 		$arr = array();
 		if(!empty($data)){
@@ -125,6 +126,14 @@ class SQLQuery{
 			}
 		}
 		$query .= implode($arr, ', ');
+
+		$joins = $this->joins;
+		if(!empty($this->joins)){
+			foreach($joins as $join){
+				$query .= ' ' . $join['type'] . ' JOIN ' . $join['table'];
+				$query .= ' ON ' . $join['clause'];
+			}
+		}
 
 		$where = $this->where;
 		$arr = array();
@@ -211,12 +220,27 @@ class SQLQuery{
 		
 		return $this;
 	}
-	
+
 	/**
 		* @param string $fields Fields to select.
 	**/
 	public function select($fields = '*'){
 		$this->fields = $fields;
+		
+		return $this;
+	}
+	
+	/**
+		* @param string $table Table to join.
+		* @param string $clause ON-clause.
+		* @param string $type Type of join.
+	*/
+	public function join($table = '', $clause = '', $type = 'INNER'){
+		$this->joins[] = array(
+			'table' => $table,
+			'clause' => $clause,
+			'type' => $type
+		);
 		
 		return $this;
 	}
