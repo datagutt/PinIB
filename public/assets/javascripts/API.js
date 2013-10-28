@@ -19,13 +19,21 @@
 									parsedJson = ID.parseJson(data);
 								}
 								if(callback){
-									callback(data);
+									callback(null, data);
 								}
+							},
+							fail: function(err){
+								callback(err, false);
 							}
 						});
 					}else{
 						ID.jsonGet(self.path + method, {
-							success: callback
+							success: function(data){
+								callback(null, data);
+							},
+							fail: function(err){
+								callback(err, false);
+							}
 						});
 					}
 				}
