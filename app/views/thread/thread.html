@@ -31,6 +31,13 @@
 
 		<label for="post-content">Content</label>
 		<textarea id="post-content" type="text" placeholder="Content" rows="5" cols="30"></textarea>
+		
+		{% if getUser() %}
+			<div class="become-anon">
+				<label for="anon">Anon</label>
+				<input name="anon" type="checkbox">
+			</div>
+		{% endif %}
 
 		<button type="submit" class="pure-button pure-button-primary">Post</button>
 	</fieldset>

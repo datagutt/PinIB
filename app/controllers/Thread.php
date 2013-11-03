@@ -15,7 +15,7 @@ class Thread extends \PinIB\Controller{
 	public function newthread(){
 		$thread = $this->app->getModel('thread');
 		
-		$thread->newThread('title', 'content', 'http://', 399, 399, 1);
+		$thread->newThread('title', 'content', 'http://', 399, 399, 1, $isAnon);
 	}
 	
 	public function reply($slug = ''){
@@ -28,7 +28,15 @@ class Thread extends \PinIB\Controller{
 			$post_content = strip_tags($_POST['post-content']);
 			$image = $_POST['image'];
 			
-			$post->newPost($t['id'], $post_content, $image, 399, 399, $_SESSION['user']['id']);
+			if(Auth::guest()){
+				$isAnon = 1;
+				$uid = $_SESSION['user']['id'];
+			}else{
+				$isAnon == isset($_POST['anon']) ? $_POST['anon'] == '1' : false;
+				$uid = 0;
+			}
+			
+			$post->newPost($t['id'], $post_content, $image, 399, 399, $uid, $isAnon);
 		}
 	}
 }

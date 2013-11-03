@@ -41,8 +41,9 @@ class Thread extends \PinIB\Model{
 		* @param integer $width Width of image.
 		* @param integer $height Height of image.
 		* @param integer $user_id User id.
+		* @param boolean $isAnon If post should be anonymous or not
 	**/
-	public function newThread($title = '', $content = '', $file = '', $width = 0, $height = 0, $user_id = 0){
+	public function newThread($title = '', $content = '', $file = '', $width = 0, $height = 0, $user_id = 0, $isAnon = false){
 		$query = new \PinIB\SQLQuery($this->table);
 
 		$thread = $query->insert(array(
@@ -52,7 +53,8 @@ class Thread extends \PinIB\Model{
 			'file' => $file,
 			'width' => $width,
 			'height' => $height,
-			'user_id' => $user_id
+			'user_id' => $user_id,
+			'anon' => (boolean) $isAnon
 		))->run();
 		return $thread;
 	}
