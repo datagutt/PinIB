@@ -22,7 +22,7 @@
 	</article>
 {% endfor %}
 {% if user %}
-<form method="post" action="/thread/reply" enctype="multipart/form-data" class="pure-form pure-form-stacked">
+<form method="post" action="/thread/{{ thread.slug }}/reply" enctype="multipart/form-data" class="pure-form pure-form-stacked">
 	<fieldset>
 		<legend>New post</legend>
 

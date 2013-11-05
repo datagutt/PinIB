@@ -15,7 +15,7 @@ class Thread extends \PinIB\Controller{
 	public function newthread(){
 		$thread = $this->app->getModel('thread');
 		
-		$thread->newThread('title', 'content', 'http://', 399, 399, 1, $isAnon);
+		$thread->newThread('title', 'http://', 399, 399, 1, $isAnon);
 	}
 	
 	public function reply($slug = ''){
