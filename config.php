@@ -15,6 +15,7 @@ $config['memcached'] = array(
 	'memch1' => array('host' => 'localhost','port' => '11211')
 );
 /* Server configuration */
+$config['cache'] = false;
 $config['url_variable'] = 'REQUEST_URI';
 $config['functions'] = array(
 	'csrf' => 'makeCSRF'

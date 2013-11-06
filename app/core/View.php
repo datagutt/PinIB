@@ -30,7 +30,7 @@ function loadTwig(){
 		PINIB_PATH . '/app/views'
 	));
 	$twig = new Twig_PinIB_Environment($loader, array(
-		'cache' => PINIB_PATH . 'cache'
+		'cache' => $config['cache'] ? PINIB_PATH . 'cache' : false
 	));
 	$twig->addFilter(new \Twig_SimpleFilter('markdown', '\\Michelf\\_MarkdownExtra_TmpImpl::defaultTransform'));
 	return $twig;
