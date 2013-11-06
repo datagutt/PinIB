@@ -5,7 +5,7 @@ class Thread extends \PinIB\Controller{
 	public function index($slug = ''){
 		$thread = $this->app->getModel('thread');
 		$t = $thread->bySlug($slug);
-		
+
 		$this->view->render('thread/thread.html', array(
 			'thread' => $t,
 			'posts' => $thread->posts($t['id'])
@@ -23,20 +23,25 @@ class Thread extends \PinIB\Controller{
 		$post = $this->app->getModel('post');
 		
 		$t = $thread->bySlug($slug);
-		
-		if(isset($_POST['post-content']) && isset($_POST['image'])){
+
+		if(isset($_POST['post-content'])){
+			\PinIB\CSRF::check();
+
 			$post_content = strip_tags($_POST['post-content']);
-			$image = $_POST['image'];
+			$image = isset($_POST['image']) ? $_POST['image'] : false;
 			
-			if(Auth::guest()){
+			if(\PinIB\Auth::guest()){
 				$isAnon = 1;
-				$uid = $_SESSION['user']['id'];
-			}else{
-				$isAnon == isset($_POST['anon']) ? $_POST['anon'] == '1' : false;
 				$uid = 0;
+			}else{
+				$isAnon = isset($_POST['anon']) ? $_POST['anon'] == '1' : false;
+				$uid = $_SESSION['user']['id'];
 			}
 			
 			$post->newPost($t['id'], $post_content, $image, 399, 399, $uid, $isAnon);
+			
+			redirect('/thread/' . $slug);
 		}
+		
 	}
 }

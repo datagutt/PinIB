@@ -7,8 +7,10 @@ class Post extends \PinIB\Model{
 		* @param integer $threadID ID of thread.
 	**/
 	public function posts($threadID = 0){
-		if($cache = $this->redis->get('thread-' . $threadID . ':posts')){
-			$thread = $this->redis->get('thread-' . $threadID . ':posts');
+		$this->redis->del($threadID . ':posts');
+		
+		if($cache = $this->redis->get($threadID . ':posts')){
+			$thread = unserialize($this->redis->get($threadID . ':posts'));
 		}else{
 			$query = new \PinIB\SQLQuery($this->table);
 			$thread = $query->select('posts.*, users.username')
@@ -18,8 +20,8 @@ class Post extends \PinIB\Model{
 				))
 				->orderBy('created_at DESC')
 				->run()
-				->fetch();
-			$this->redis->set('thread-' . $threadID . ':posts', $thread);
+				->fetchAll();
+			$this->redis->set($threadID . ':posts', serialize($thread));
 		}
 		return $thread;
 	}
@@ -31,23 +33,22 @@ class Post extends \PinIB\Model{
 		* @param integer $width Width of image.
 		* @param integer $height Height of image.
 		* @param integer $user_id User id.
-		* @param boolean $isAnon If post should be anonymous or not
+		* @param boolean $isAnon If post should be anonymous or not.
 	**/
-	public function newPost($threadID = 0, $content = '', $file = '', $width = 0, $height = 0, $user_id = 0, $isAnon){
+	public function newPost($threadID = 0, $content = '', $file = '', $width = 0, $height = 0, $user_id = 0, $isAnon = 0){
 		$query = new \PinIB\SQLQuery($this->table);
 
 		$thread = $query->insert(array(
 			'thread_id' => $threadID,
 			'content' => $content,
-			'slug' => \slug($title),
 			'file' => $file,
 			'width' => $width,
 			'height' => $height,
 			'user_id' => $user_id,
-			'anon' => (boolean) $isAnon
+			'anon' => $isAnon ? '1' : '0'
 		))->run();
 		
-		$this->redis->del('thread-' . $threadID . ':posts');
+		$this->redis->del($threadID . ':posts');
 		
 		return $thread;
 	}

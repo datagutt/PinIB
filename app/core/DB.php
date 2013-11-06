@@ -159,6 +159,10 @@ class SQLQuery{
 		
 		if(is_array($data)){
 			foreach($data as $key => $value){
+				if(is_bool($value)){
+					$value = $value ? '1' : '0';	
+				}
+				
 				$data[':' . $key] = $value;
 				unset($data[$key]);
 			}
@@ -166,6 +170,10 @@ class SQLQuery{
 		
 		if(is_array($where)){
 			foreach($where as $key => $value){
+				if(is_bool($value)){
+					$value = $value ? '1' : '0';	
+				}
+				
 				$where[':' . $key] = $value;
 				unset($where[$key]);
 			}

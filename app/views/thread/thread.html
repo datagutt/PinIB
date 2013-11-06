@@ -25,12 +25,14 @@
 <form method="post" action="/thread/{{ thread.slug }}/reply" enctype="multipart/form-data" class="pure-form pure-form-stacked">
 	<fieldset>
 		<legend>New post</legend>
+		
+		<input name="token" type="hidden" value="{{ getToken() }}">
 
 		<label for="image">Image</label>
 		<input id="image" name="image" type="file" placeholder="Image">
 
 		<label for="post-content">Content</label>
-		<textarea id="post-content" type="text" placeholder="Content" rows="5" cols="30"></textarea>
+		<textarea id="post-content" name="post-content" type="text" placeholder="Content" rows="5" cols="30"></textarea>
 		
 		{% if getUser() %}
 			<div class="become-anon">
