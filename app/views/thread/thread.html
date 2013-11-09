@@ -13,7 +13,7 @@
 	{% set ago = ago(post.created_at) %}
 	<article class="post">
 			<header>
-				{% if anon %}
+				{% if post.anon %}
 				<h4><span class="posted-by"><a href="#">Anonymous</a></span> wrote {{ ago }}</h4>
 				{% else %}
 				<h4><span class="posted-by"><a href="/user/{{ slug(post.username) }}">{{ post.username }}</a></span> wrote {{ ago }}</h4>
