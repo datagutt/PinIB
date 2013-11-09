@@ -5,15 +5,19 @@
 	<article id="thread">
 			<header>
 				<h2 id="thread-title">{{ thread.title }}</h1>
-				<h4>Posted by <a href="/user/{{ slug(thread.username) }}">{{ thread.username }}</a> {{ thread.ago }} on {{ thread.created_at }}</h4>
+				<h4>Posted by <a href="/user/{{ slug(thread.username) }}">{{ thread.username }}</a> on {{ thread.created_at }}</h4>
 			</header>
 			<img src="{{ thread.file }}" width="{{ thread.width }}" height="{{ thread.height }}">
-			<div class="content">{{ thread.content }}</div>
 	</article>
 {% for post in posts %}
+	{% set ago = ago(post.created_at) %}
 	<article class="post">
 			<header>
-				<h4><span class="posted-by"><a href="/user/{{ slug(post.username) }}">{{ post.username }}</a></span> wrote {{ post.ago }}</h4>
+				{% if anon %}
+				<h4><span class="posted-by"><a href="#">Anonymous</a></span> wrote {{ ago }}</h4>
+				{% else %}
+				<h4><span class="posted-by"><a href="/user/{{ slug(post.username) }}">{{ post.username }}</a></span> wrote {{ ago }}</h4>
+				{% endif %}
 			</header>
 {% if post.file %}
 			<img src="{{ post.file }}" width="{{ post.width }}" height="{{ post.height }}">
@@ -21,29 +25,26 @@
 			<div class="content">{{ post.content }}</div>
 	</article>
 {% endfor %}
-{% if user %}
-<form method="post" action="/thread/{{ thread.slug }}/reply" enctype="multipart/form-data" class="pure-form pure-form-stacked">
+<form id="thread-form" method="post" action="/thread/{{ thread.slug }}/reply" enctype="multipart/form-data" class="pure-form">
 	<fieldset>
-		<legend>New post</legend>
-		
 		<input name="token" type="hidden" value="{{ getToken() }}">
 
-		<label for="image">Image</label>
-		<input id="image" name="image" type="file" placeholder="Image">
-
-		<label for="post-content">Content</label>
-		<textarea id="post-content" name="post-content" type="text" placeholder="Content" rows="5" cols="30"></textarea>
+		<textarea id="post-content" name="post-content" type="text" rows="1" maxlength="2000" style="width: 286px;" placeholder="Content"></textarea>
 		
-		{% if getUser() %}
-			<div class="become-anon">
+		<div class="upload-container">
+			<button class="pure-button fake-button">Upload</button>
+			<input id="upload" name="image" type="file" accept="image/*">
+		</div>
+
+		{% if user %}
+			<span class="become-anon">
 				<label for="anon">Anon</label>
-				<input name="anon" type="checkbox">
-			</div>
+				<input name="anon" type="checkbox" class="pure-checkbox">
+			</span>
 		{% endif %}
 
 		<button type="submit" class="pure-button pure-button-primary">Post</button>
 	</fieldset>
 </form>
-{% endif %}
 </div>
 {% endblock %}

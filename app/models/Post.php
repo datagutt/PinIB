@@ -18,7 +18,7 @@ class Post extends \PinIB\Model{
 				->where(array(
 					'thread_id' => $threadID
 				))
-				->orderBy('created_at DESC')
+				->orderBy('created_at ASC')
 				->run()
 				->fetchAll();
 			$this->redis->set($threadID . ':posts', serialize($thread));
@@ -45,7 +45,7 @@ class Post extends \PinIB\Model{
 			'width' => $width,
 			'height' => $height,
 			'user_id' => $user_id,
-			'anon' => $isAnon ? '1' : '0'
+			'anon' => $isAnon
 		))->run();
 		
 		$this->redis->del($threadID . ':posts');

@@ -34,7 +34,7 @@ class Thread extends \PinIB\Controller{
 				$isAnon = 1;
 				$uid = 0;
 			}else{
-				$isAnon = isset($_POST['anon']) ? $_POST['anon'] == '1' : false;
+				$isAnon = isset($_POST['anon']) ? $_POST['anon'] == 'on' : false;
 				$uid = $_SESSION['user']['id'];
 			}
 			
