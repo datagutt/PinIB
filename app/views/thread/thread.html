@@ -5,7 +5,7 @@
 	<article id="thread">
 			<header>
 				<h2 id="thread-title">{{ thread.title }}</h1>
-				<h4>Posted by <a href="/user/{{ slug(thread.username) }}">{{ thread.username }}</a> on {{ thread.created_at }}</h4>
+				<h4>Posted by {{ thread.username }} on {{ thread.created_at }}</h4>
 			</header>
 			<img src="{{ thread.file }}" width="{{ thread.width }}" height="{{ thread.height }}">
 	</article>
@@ -14,9 +14,9 @@
 	<article class="post">
 			<header>
 				{% if post.anon %}
-				<h4><span class="posted-by"><a href="#">Anonymous</a></span> wrote {{ ago }}</h4>
+				<h4><span class="posted-by">Anonymous</span> wrote {{ ago }}</h4>
 				{% else %}
-				<h4><span class="posted-by"><a href="/user/{{ slug(post.username) }}">{{ post.username }}</a></span> wrote {{ ago }}</h4>
+				<h4><span class="posted-by">{{ post.username }}</span> wrote {{ ago }}</h4>
 				{% endif %}
 			</header>
 {% if post.file %}
