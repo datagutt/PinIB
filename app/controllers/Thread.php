@@ -1,5 +1,6 @@
 <?php
 namespace PinIB\Controllers;
+use \PinIB\Input;
 
 class Thread extends \PinIB\Controller{
 	public function index($slug = ''){
@@ -24,17 +25,17 @@ class Thread extends \PinIB\Controller{
 		
 		$t = $thread->bySlug($slug);
 
-		if(isset($_POST['post-content'])){
+		if(Input::post('post-content')){
 			\PinIB\CSRF::check();
 
-			$post_content = strip_tags($_POST['post-content']);
-			$image = isset($_POST['image']) ? $_POST['image'] : false;
+			$post_content = strip_tags(Input::post('post-content'));
+			$image = Input::post('image') ? Input::post('image') : false;
 			
 			if(\PinIB\Auth::guest()){
 				$isAnon = 1;
 				$uid = 0;
 			}else{
-				$isAnon = isset($_POST['anon']) ? $_POST['anon'] == 'on' : false;
+				$isAnon = Input::post('anon') ? Input::post('anon') == 'on' : false;
 				$uid = $_SESSION['user']['id'];
 			}
 			

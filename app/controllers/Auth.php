@@ -1,5 +1,6 @@
 <?php
 namespace PinIB\Controllers;
+use PinIB\Input;
 
 class Auth extends \PinIB\Controller{
 	public function index(){
@@ -11,12 +12,12 @@ class Auth extends \PinIB\Controller{
 			redirect('/');
 		}
 
-		if(!isset($_POST['username']) || !isset($_POST['password'])){
+		if(!Input::post('username') || !Input::post('password')){
 			$this->view->render('auth/login.html');
 		}else{
 			\PinIB\CSRF::check();
-			$username = $_POST['username'];
-			$password = $_POST['password'];
+			$username = Input::post('username');
+			$password = Input::post('password');
 			if(\PinIB\Auth::login($username, $password)){
 				redirect('/');
 			}else{

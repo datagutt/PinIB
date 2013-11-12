@@ -1,11 +1,12 @@
 <?php
 namespace PinIB\Controllers;
+use \PinIB\Input;
 
 class Index extends \PinIB\Controller{
 	public function index(){
 		$thread = $this->app->getModel('thread');
 		
-		if(isset($_GET['noCache']) && $_GET['noCache'] == 1){
+		if(Input::get('noCache') == 1){
 			$thread->redis->del('threads');
 		}
 

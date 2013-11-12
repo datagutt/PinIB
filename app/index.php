@@ -29,6 +29,7 @@ require PINIB_PATH . 'routes.php';
 try{
 	require PINIB_PATH . '/app/core/DB.php';
 	require PINIB_PATH . '/app/core/App.php';
+	require PINIB_PATH . '/app/core/Input.php';
 	require PINIB_PATH . '/app/core/Controller.php';
 	require PINIB_PATH . '/app/core/JSONController.php';
 	require PINIB_PATH . '/app/core/Model.php';
