@@ -6,26 +6,30 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
-CREATE DATABASE IF NOT EXISTS `pinib` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `pinib`;
+CREATE DATABASE IF NOT EXISTS `idioticdev` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `idioticdev`;
 
 CREATE TABLE IF NOT EXISTS `config` (
   `name` varchar(10) NOT NULL,
-  `value` varchar(20) NOT NULL
+  `value` varchar(20) NOT NULL,
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `posts` (
   `post_id` int(11) NOT NULL AUTO_INCREMENT,
   `thread_id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
   `content` varchar(255) NOT NULL,
+  `file` tinytext NOT NULL,
+  `width` int(11) NOT NULL,
+  `height` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `anon` tinyint(1) NOT NULL,
   PRIMARY KEY (`post_id`),
   UNIQUE KEY `post_id` (`post_id`),
   KEY `thread_id` (`thread_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `threads` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
