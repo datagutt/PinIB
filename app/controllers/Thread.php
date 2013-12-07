@@ -2,6 +2,8 @@
 namespace PinIB\Controllers;
 use \PinIB\Input;
 
+require PINIB_PATH . '/app/libraries/ImageUpload.php';
+
 class Thread extends \PinIB\Controller{
 	public function index($slug = ''){
 		$thread = $this->app->getModel('thread');
@@ -16,11 +18,16 @@ class Thread extends \PinIB\Controller{
 	public function newthread(){
 		$thread = $this->app->getModel('thread');
 		
+		// TODO: Allow guests to post
+		if(\PinIB\Auth::guest()){
+			return;
+		}
+		
 		if(Input::post('thread-content')){
 			\PinIB\CSRF::check();
 			
 			$thread_content = strip_tags(Input::post('thread-content'));
-			if($image = Input::post('image')){
+			if($image = Input::file('image')){
 				if(\PinIB\Auth::guest()){
 					$isAnon = 1;
 					$uid = 0;
@@ -41,12 +48,17 @@ class Thread extends \PinIB\Controller{
 		$post = $this->app->getModel('post');
 		
 		$t = $thread->bySlug($slug);
-
+		
+		// TODO: Allow guests to post
+		if(\PinIB\Auth::guest()){
+			return;
+		}
+		
 		if(Input::post('post-content')){
 			\PinIB\CSRF::check();
 
 			$post_content = strip_tags(Input::post('post-content'));
-			$image = Input::post('image') ? Input::post('image') : false;
+			$image = Input::file('image');
 			
 			if(\PinIB\Auth::guest()){
 				$isAnon = 1;
@@ -56,9 +68,33 @@ class Thread extends \PinIB\Controller{
 				$uid = $_SESSION['user']['id'];
 			}
 			
-			$post->newPost($t['id'], $post_content, $image, 399, 399, $uid, $isAnon);
+			// futuba timestamp
+			$new = time().substr(microtime(), 2, 3); 
+			$fileName = $new . '.png';
+			$containsImage = !empty($fileName) && is_array($image) && !empty($image['tmp_name']);
+
+			$c = new \PinIB\ImageUpload();
+
+			try{
+				if($containsImage){
+					$c->upload($image, $new);
+				}
+			}catch(\PinIB\ImageException $e){
+				$this->view->render('errors/upload.html', array(
+					'error' => $e->getMessage()
+				));
+				exit;
+			}
 			
-			redirect('/thread/' . $slug);
+			if(!$containsImage || is_file(UPLOAD_PATH . '/' . $fileName)){
+				$post->newPost($t['id'], $post_content, !empty($containsImage) ? $fileName : false, 399, 399, $uid, $isAnon);
+				redirect('/thread/' . $slug);
+			}else{
+				$this->view->render('errors/upload.html', array(
+					'error' => 'File could not be uploaded.'
+				));
+				exit;
+			}
 		}
 		
 	}

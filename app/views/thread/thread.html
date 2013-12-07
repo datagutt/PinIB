@@ -7,7 +7,11 @@
 				<h2 id="thread-title">{{ thread.title }}</h1>
 				<h4>Posted by {{ thread.username }} on {{ thread.created_at }}</h4>
 			</header>
-			<img src="{{ thread.file }}" width="{{ thread.width }}" height="{{ thread.height }}">
+			{% if isExternal(post.file) %}
+				<img src="{{ post.file }}" width="{{ post.width }}" height="{{ post.height }}">
+			{% else %}
+				<img src="/images/{{ post.file }}" width="{{ post.width }}" height="{{ post.height }}">
+			{% endif %}
 	</article>
 {% for post in posts %}
 	{% set ago = ago(post.created_at) %}
@@ -20,11 +24,16 @@
 				{% endif %}
 			</header>
 {% if post.file %}
-			<img src="{{ post.file }}" width="{{ post.width }}" height="{{ post.height }}">
+			{% if isExternal(post.file) %}
+				<img src="{{ post.file }}" width="{{ post.width }}" height="{{ post.height }}">
+			{% else %}
+				<img src="/images/{{ post.file }}" width="{{ post.width }}" height="{{ post.height }}">
+			 {% endif %}
 {% endif %}
 			<div class="content">{{ post.content }}</div>
 	</article>
 {% endfor %}
+{% if user %}
 <form id="thread-form" method="post" action="/thread/{{ thread.slug }}/reply" enctype="multipart/form-data" class="pure-form">
 	<fieldset>
 		<input name="token" type="hidden" value="{{ getToken() }}">
@@ -46,5 +55,6 @@
 		<button type="submit" class="pure-button pure-button-primary">Post</button>
 	</fieldset>
 </form>
+{% endif %}
 </div>
 {% endblock %}

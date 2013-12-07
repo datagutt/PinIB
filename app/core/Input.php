@@ -18,6 +18,13 @@ class Input{
 	}
 	
 	/**
+		* @param string $param Parameter from FILE
+	**/
+	public static function file($param){
+		return array_key_exists($param, $_FILES) ? $_FILES[$param] : false;
+	}
+		
+	/**
 		* @param string $param Parameter from GET or POST
 		* @param string $filter Filter
 	**/

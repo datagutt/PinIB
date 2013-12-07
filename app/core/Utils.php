@@ -1,4 +1,7 @@
 <?php
+function id($a){
+	return $a;
+}
 function redirect($location = '/', $statusCode = 302){
 	header('Location: ' . $location, true, $statusCode);
 }

@@ -5,7 +5,7 @@ use \PinIB\Input;
 class Index extends \PinIB\Controller{
 	public function index(){
 		$thread = $this->app->getModel('thread');
-		
+
 		if(Input::get('noCache') == 1){
 			$thread->redis->del('threads');
 		}
