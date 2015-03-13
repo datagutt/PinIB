@@ -140,10 +140,15 @@ class SQLQuery{
 		if(!empty($where)){
 			$query .= ' WHERE ';
 			foreach($where as $key => $value){
-				array_push($arr, $key . ' = :' . $key);
+				$key2 = NULL;
+				if(array_key_exists($key, $data)){
+					$key2 = $key . '2';
+				}
+				$theKey = isset($key2) ? $key2 : $key;
+				array_push($arr, $key . ' = :' . $theKey);
 			}
 		}
-		$query .= implode($arr, ', ');
+		$query .= implode($arr, ' AND ');
 		
 		$orderBy = $this->orderBy;
 		if(!empty($orderBy)){	
@@ -173,8 +178,13 @@ class SQLQuery{
 				if(is_bool($value)){
 					$value = $value ? '1' : '0';	
 				}
-				
-				$where[':' . $key] = $value;
+				$key2 = NULL;
+				if(!empty($key) && array_key_exists(':' . $key, $data)){
+					$key2 = $key . '2';
+				}
+				echo $key2;
+				$theKey = isset($key2) ? $key2 : $key;
+				$where[':' . $theKey] = $value;
 				unset($where[$key]);
 			}
 		}
@@ -182,6 +192,11 @@ class SQLQuery{
 		try{
 			$stmt->execute(array_merge($data, $where));
 			$this->_result = $stmt;
+
+			$this->from = '';
+			$this->data = $this->joins = $this->where = array();
+			$this->orderBy = $this->limit = null;
+
 			return $this;
 		}catch(PDOException $e){
 			$this->error = $e->getMessage();
